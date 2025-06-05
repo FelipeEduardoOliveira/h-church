@@ -1,1 +1,6 @@
-export class User {}
+export class User {
+  id: string;
+  nome: string;
+  email: string;
+  senha: string;
+}
