@@ -1,0 +1,72 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model pessoa {
+  id              String     @id @default(uuid())
+  nome            String
+  dataNascimento  DateTime
+  telefone        String?
+  email           String?
+  endereco        String?
+  cidade          String?
+  estado          String?
+  tipo            TipoPessoa
+  congregaEmOutra Boolean    @default(false)
+  membroDesde     DateTime? // Só se for membro
+  visitante       visitante?
+  membro          membro?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+}
+
+model membro {
+  id       String  @id @default(uuid())
+  pessoaId String  @unique
+  pessoa   pessoa  @relation(fields: [pessoaId], references: [id])
+  cargo    String? // Ex: Diácono, Pastor
+  batizado Boolean
+}
+
+model visitante {
+  id              String   @id @default(uuid())
+  pessoaId        String   @unique
+  pessoa          pessoa   @relation(fields: [pessoaId], references: [id])
+  primeiraVisita  DateTime
+  potencialMembro Boolean  @default(false)
+  observacoes     String?
+}
+
+model usuario {
+  id        String   @id @default(uuid())
+  nome      String
+  email     String   @unique
+  senha     String
+  role      Role     @default(MEMBRO) // ou ADMIN, PASTOR, etc.
+  ativo     Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum TipoPessoa {
+  MEMBRO
+  VISITANTE
+}
+
+enum Role {
+  ADMIN
+  SECRETARIO
+  PASTOR
+  MEMBRO
+}
