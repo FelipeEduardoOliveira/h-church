@@ -53,7 +53,7 @@ model usuario {
   nome      String
   email     String   @unique
   senha     String
-  role      Role     @default(MEMBRO) // ou ADMIN, PASTOR, etc.
+  role      Role     @default(ACOLHEDOR) // ou ADMIN, PASTOR, etc.
   ativo     Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -68,5 +68,5 @@ enum Role {
   ADMIN
   SECRETARIO
   PASTOR
-  MEMBRO
+  ACOLHEDOR
 }

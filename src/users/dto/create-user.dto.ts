@@ -1,10 +1,10 @@
 import { IsEmail, IsEnum, IsNotEmpty, MinLength } from 'class-validator';
 
 export enum Role {
-  ADMIN = 'ADMIN',
-  SECRETARIO = 'SECRETARIO',
-  PASTOR = 'PASTOR',
-  MEMBRO = 'MEMBRO',
+  ADMIN = 'ADMIN', // TUDO
+  SECRETARIO = 'SECRETARIO', // Visualizar informações / CRUD escala / CRUD Usuarios / CRUD mensagens
+  PASTOR = 'PASTOR', // TUDO
+  ACOLHEDOR = 'ACOLHEDOR', // CRUD visitantes ( Do mesmo dia ) / Visualizar escalas
 }
 
 export class CreateUserDto {
@@ -21,7 +21,7 @@ export class CreateUserDto {
 
   @IsNotEmpty({ message: 'O campo role é obrigatório' })
   @IsEnum(Role, {
-    message: 'O campo role deve ser ADMIN, SECRETARIO, PASTOR, MEMBRO',
+    message: 'O campo role deve ser ADMIN, SECRETARIO, PASTOR, ACOLHEDOR',
   })
   role: Role;
 }
